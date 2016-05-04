@@ -58,7 +58,7 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService','ingService','c
     $scope.addPizza = function(pizza){
         cartService.addPizza(pizza);
 
-        console.log(cartService.cart);
+        	console.log(cartService.cart);
 
             };
 
@@ -76,19 +76,67 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService','ingService','c
       $scope.orderPizza = function(){
       	$state.go('order');
       };
-	
+	$scope.instantBuy = function(pizza){
+		cartService.instantBuy(pizza);
+		$state.go('order');
+	};
 
 }]);
 
 //KONTROLER zamówień
-pizzaPlace.controller('orderController' , ['$scope', 'menuService','ingService','cartService','$state', function($scope, menuService,ingService, cartService, $state) {
+pizzaPlace.controller('orderController' , ['$scope','$http', 'menuService','ingService','cartService','$state', function($scope, $http, menuService,ingService, cartService, $state) {
 	$scope.cart = cartService.cart;
 	$scope.cartTotal = cartService.cartTotal;
+	$scope.personOrder = {};
+
+	
+	   $scope.orderPizza = function(info){
+        
+        $scope.personOrder = info;
+        
+         $scope.orderSummary={
+            cart: [],
+            orderInfo: {
+                phone: $scope.personOrder.phone,
+                address: $scope.personOrder.address,
+                remarks: $scope.personOrder.remarks
+            },
+        };
+    
+           for (var i=0; i<$scope.cart.length ;i++){
+            $scope.orderSummary.cart.push({
+                id: $scope.cart[i].id,
+                quantity: $scope.cart[i].quantity,
+                total: $scope.cart[i].price*$scope.cart[i].quantity
+            })
+        }
+        
+       $http.post('/order', ($scope.orderSummary))
+            .success(function(response){
+                $scope.res = JSON.parse(response.id);
+                $state.go('status',{
+                    orderId:$scope.res 
+                });
+            }).error(function(response){
+                console.log("błąd"  + response);
+            })
+        
+    };
+
+
+}]);
+
+//Status
+pizzaPlace.controller('statusController',['$scope', function($scope){
 
 }]);
 
 //SERVICES
 
+pizzaPlace.service('orderService', function(){
+	
+
+});
 
 pizzaPlace.service('cartService', function(){
 	this.cart = [];
@@ -102,6 +150,15 @@ pizzaPlace.service('cartService', function(){
       			this.cart.splice(this.cart.indexOf(pizza), 1);
       		};
       };
+    this.instantBuy = function(pizza){
+    		this.cart.push({
+				id: pizza.id,
+				name: pizza.name,
+				price: pizza.price,
+				ingredients: pizza.ingredients,
+				quantity: pizza.quantity
+		});
+    };
 	this.addPizza = function(pizza){
 			this.cart.push({
 				id: pizza.id,
@@ -111,6 +168,9 @@ pizzaPlace.service('cartService', function(){
 				quantity: pizza.quantity
 		});
 	};
+	 this.cartFinal = function(){
+        return this.cart;
+    };
 	this.cartTotal = function(){
 		var sum = 0;
 
