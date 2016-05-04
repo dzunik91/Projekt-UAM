@@ -1,0 +1,68 @@
+<!doctype html>
+<html ng-app="pizzaPlace">
+  <head>
+    <link href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700italic|Oswald' rel='stylesheet' type='text/css'>
+    <link href="css/main.css" rel="stylesheet" />
+    
+  </head>
+  <body>
+ <nav class="navbar navbar-default navbar-fixed-top">
+  
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      
+      <a class="navbar-brand" href="#">Uam pizza app</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+       
+        <li><a ui-sref="menu">Menu</a></li>
+  
+        <li><a ui-sref="contact">Kontakt</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+    <div class="header">
+      <h1><span>Angular</span><span>Pizza</span></h1>
+    </div>
+
+    <div class="main">
+      
+         <div ui-view></div>
+      
+    </div>
+
+
+    
+    <div class="footer">
+    </div>
+    
+    <!-- Modules -->
+    
+
+    <!-- Controllers -->
+   
+
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+    <script src="js/app.js"></script>
+
+    <!--Services -->
+    <script src="js/services/menuService.js"></script>
+    <script src="js/services/contactService.js"></script>
+
+
+  </body>
+</html>

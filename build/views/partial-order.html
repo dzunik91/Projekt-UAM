@@ -1,0 +1,76 @@
+<div class="orderFinale">
+<h2>Order</h2>
+
+<table width="500">
+          <tr>
+            <th>Name</th>
+           
+            <th>Qty</th>
+            
+            <th>Price</th>
+
+            <th></th>
+          </tr>
+          <tr class="cartData" ng-repeat="pizza in cart">
+            <td >{{pizza.name}}</td>
+            <td >{{pizza.quantity}}</td>
+            <td >{{(pizza.price*pizza.quantity)|number:2}}</td>
+          </tr>
+          <tr>
+            <th></th>
+            <th>SUM:</th>
+            <th>{{cartTotal() | number:2}} PLN</th>
+          </tr>
+</table>
+
+
+    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+<fieldset>
+
+
+<legend>Finalize Order</legend>
+
+<div class="form-group">
+  <label class="col-md-4 control-label">Phone #</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+  <input name="phone" placeholder="(000)000-0000" class="form-control" type="text">
+    </div>
+  </div>
+</div>
+
+
+      
+<div class="form-group">
+  <label class="col-md-4 control-label">Address</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+  <input name="address" placeholder="Address" class="form-control" type="text">
+    </div>
+  </div>
+</div>
+
+ 
+<div class="form-group">
+  <label class="col-md-4 control-label">Remarks</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+  <input name="city" placeholder="Remarks" class="form-control"  type="text">
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-warning" >Order <span class="glyphicon glyphicon-send"></span></button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</div>
+</div>

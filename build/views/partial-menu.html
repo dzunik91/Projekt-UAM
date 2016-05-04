@@ -1,0 +1,60 @@
+<!--<h1>Oferta na {{ today | date }}</h1>-->
+     
+
+    <div class="container">
+     <div class="menu col-md-8">   
+     <h2>Pizze</h2>
+        <div class="appetizers row" ng-repeat="pizza in pizzaMenu">
+          <div class="item col-md-7">
+            <h3 class="name"> {{pizza.id}}.  {{pizza.name}} </h3>
+            <div class="description">
+           <p ng-repeat="in in pizzaIngredients" ng-if="pizza.ingredients.indexOf(in.id) >= 0">{{in.label}}, </p> 
+            </div>
+          </div>
+          <div class="price col-md-2">
+            <p class="price">  {{pizza.price | currency:"PLN "}} </p>
+          </div>
+          <div class=" qty col-md-2">
+            
+              <input ng-init="pizza.quantity=1"  ng-model="pizza.quantity" type="number"  name="pizzaQuantity" min="0" max="10" step="1" value="1" >
+              
+              
+          </div>
+           
+                <button class="btn btn-success" ng-click="addPizza(pizza)">Add to Cart</button>
+                <button class="btn btn-danger">Express Order</button>
+
+        </div>
+        </div>
+
+        <div class="cart col-md-4">
+          <h1>Cart</h1>
+          <table>
+          <tr>
+            <th>Name</th>
+           
+            <th>Qty</th>
+            
+            <th>Price</th>
+
+            <th></th>
+          </tr>
+          <tr class="cartData" ng-repeat="pizza in cart">
+            <td >{{pizza.name}}</td>
+            <td ><button class="btn" ng-click="pizzaDecQty(pizza)"><i class="glyphicon glyphicon-minus"></i></button>{{pizza.quantity}}<button class="btn" ng-click="pizzaIncQty(pizza)"><i class="glyphicon glyphicon-plus"></i></button></td>
+            <td >{{(pizza.price*pizza.quantity)|number:2}}</td>
+            <td><button class="btn" ng-click="removePizza(pizza)"><i class="glyphicon glyphicon-remove"></i></button></td>
+          </tr>
+          <tr>
+            <th></th>
+            <th>SUM:</th>
+            <th>{{cartTotal() | number:2}} PLN</th>
+          </tr>
+          </table>
+          <button class="btn btn-success" ng-click="orderPizza()">Continue</button>
+          
+
+
+        </div>
+</div>
+    
