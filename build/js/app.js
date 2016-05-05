@@ -181,16 +181,20 @@ pizzaPlace.controller('orderController' , ['$scope', '$http', '$state','$statePa
 }]);
 
 //Status
-pizzaPlace.controller('statusController',['$scope', 'statusService', '$stateParams', '$http', function($scope, statusService, $stateParams, $http){
+pizzaPlace.controller('statusController',['$scope', 'statusService', '$stateParams', '$http', '$timeout', function($scope, statusService, $stateParams, $http, $timeout){
+  
+
   $http.get("/order/"+$stateParams.orderId)
   .success(function(response) 
   {
     $scope.timeOrdered  = response.ordered; 
     $scope.timeEstimated = response.estimated;  
-
-    $scope.minutesRemain = response.ordered.getMinutes();
-    console.log($scope.minutesRemain);
   });
+
+    $scope.minutesLeft = function(){
+
+     
+    }
 }]);
 
 //SERVICES
