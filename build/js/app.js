@@ -1,38 +1,40 @@
+'use strict';
+
 var pizzaPlace = angular.module('pizzaPlace', ['ui.router']);
 	
-			pizzaPlace.config(function($stateProvider, $urlRouterProvider) {
-				$stateProvider
+pizzaPlace.config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
 
 				.state('status',{
 					url:'/status/:orderId',
 					templateUrl: 'views/partial-status.html',
 					controller: 'statusController'
 				})
-				.state('menu',{
-					url:'/menu',
-					templateUrl: 'views/partial-menu.html',
-					controller: 'menuController'
-				})
+				.state('menu', {
+            url: '/menu',
+            templateUrl: 'views/partial-menu.html',
+            controller: 'menuController'
+        })
 
-				.state('order',{
-					url:'/order',
-					templateUrl: 'views/partial-order.html',
-					controller: 'orderController'
-				})
+				.state('order', {
+            url: '/order',
+            templateUrl: 'views/partial-order.html',
+            controller: 'orderController'
+        })
 
-				.state('contact',{
-					url:'/contact',
-					templateUrl: 'views/partial-contact.html',
-					controller: 'contactController'
-				});
+				.state('contact', {
+            url: '/contact',
+            templateUrl: 'views/partial-contact.html',
+            controller: 'contactController'
+        });
 
-				$urlRouterProvider.otherwise('/menu');
-			});
+    $urlRouterProvider.otherwise('/menu');
+});
 
 
 			//KONTROLER KONTAKTÓW
-pizzaPlace.controller('contactController',['$scope', 'contactService', function($scope, contactService){
-	contactService.success(function(data){
+pizzaPlace.controller('contactController', ['$scope', 'contactService', function ($scope, contactService) {
+	contactService.success(function (data) {
 		$scope.contact = data;
 	});
 }]);
@@ -41,28 +43,46 @@ pizzaPlace.controller('contactController',['$scope', 'contactService', function(
 //KONTROLER MENU-PIZZE oraz SKŁADNIKI - INGREDIENTS
 
 
-pizzaPlace.controller('menuController', ['$scope', 'menuService','ingService','cartService','$state', function($scope, menuService,ingService, cartService, $state) {
+pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 'cartService', '$state', function ($scope, menuService, ingService, cartService, $state) {
 	
 	$scope.today = new Date();
 	
-	menuService.success(function(data) { 
-    $scope.pizzaMenu = data; 
-  });
+	menuService.success(function (data) {
+        $scope.pizzaMenu = data;
+    });
 
-	ingService.success(function(data){
+	ingService.success(function (data) {
 		$scope.pizzaIngredients = data;
 	});
 
-	   $scope.cart = cartService.cart;
-	   $scope.cartTotal = cartService.cartTotal;
-    $scope.addPizza = function(pizza){
+    $scope.cart = cartService.cart;
+    $scope.cartTotal = cartService.cartTotal;
+    $scope.addPizza = function (pizza) {
+
+
         cartService.addPizza(pizza);
 
-        	console.log(cartService.cart);
+        console.log(cartService.cart);
 
             };
 
-      $scope.removePizza = function(pizza){
+
+         /*   $scope.addPizza = function (pizza) {
+        for(var i = 0; i < $scope.cart.length; i++ ){
+        if($scope.cart[i].id == pizza.id){
+          cartService.pizzaIncQty(pizza);
+        }else{
+          cartService.addPizza(pizza);
+
+          console.log(cartService.cart);
+        }
+      };
+        
+
+            };*/
+
+
+      $scope.removePizza = function (pizza){
       		cartService.cart.splice($scope.cart.indexOf(pizza), 1);
       };
 
@@ -84,14 +104,47 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService','ingService','c
 }]);
 
 //KONTROLER zamówień
-pizzaPlace.controller('orderController' , ['$scope','$http', 'menuService','ingService','cartService','$state', function($scope, $http, menuService,ingService, cartService, $state) {
+pizzaPlace.controller('orderController' , ['$scope', '$http', '$state','$stateParams', 'menuService', 'ingService', 'cartService', function($scope, $http, $state, $stateParams, menuService, ingService, cartService) {
 	$scope.cart = cartService.cart;
 	$scope.cartTotal = cartService.cartTotal;
-	$scope.personOrder = {};
+	/*$scope.personOrder = {};*/
+  $scope.client = {};
+  $scope.orderFinish = function(infoObj){
+        
+        $scope.client = infoObj;
+        
+         $scope.orderFinal={
+            order: [],
+            orderInfo: {
+                phone: $scope.client.phone,
+                address: $scope.client.address,
+                remarks: $scope.client.remarks
+            },
+            extras: []
+        };
+    
+           for (var i=0; i<$scope.cart.length ;i++){
+            $scope.orderFinal.order.push({
+                id: $scope.cart[i].id,
+                quantity: $scope.cart[i].quantity
+            })
+        }
+        
+       $http.post('/order', ($scope.orderFinal))
+            .success(function(response){
+                $scope.res = JSON.parse(response.id);
+                $state.go('status',{
+                    orderId:$scope.res 
+                });
+            }).error(function(response){
+                console.log("błąd"  + response);
+            })
+        
+    };
 
 	
-	   $scope.orderPizza = function(info){
-        
+	  /* $scope.orderPizza = function(info){
+        	
         $scope.personOrder = info;
         
          $scope.orderSummary={
@@ -101,13 +154,14 @@ pizzaPlace.controller('orderController' , ['$scope','$http', 'menuService','ingS
                 address: $scope.personOrder.address,
                 remarks: $scope.personOrder.remarks
             },
+            extras: []
         };
     
-           for (var i=0; i<$scope.cart.length ;i++){
+           for (var i=0; i<$scope.cart.length; i++){
             $scope.orderSummary.cart.push({
                 id: $scope.cart[i].id,
-                quantity: $scope.cart[i].quantity,
-                total: $scope.cart[i].price*$scope.cart[i].quantity
+                quantity: $scope.cart[i].quantity
+               // total: $scope.cart[i].price*$scope.cart[i].quantity
             })
         }
         
@@ -122,23 +176,27 @@ pizzaPlace.controller('orderController' , ['$scope','$http', 'menuService','ingS
             })
         
     };
-
+*/
 
 }]);
 
 //Status
-pizzaPlace.controller('statusController',['$scope', function($scope){
+pizzaPlace.controller('statusController',['$scope', 'statusService', '$stateParams', '$http', function($scope, statusService, $stateParams, $http){
+  $http.get("/order/"+$stateParams.orderId)
+  .success(function(response) 
+  {
+    $scope.timeOrdered  = response.ordered; 
+    $scope.timeEstimated = response.estimated;  
 
+    $scope.minutesRemain = response.ordered.getMinutes();
+    console.log($scope.minutesRemain);
+  });
 }]);
 
 //SERVICES
 
-pizzaPlace.service('orderService', function(){
-	
-
-});
-
 pizzaPlace.service('cartService', function(){
+	
 	this.cart = [];
 	this.pizzaIncQty = function(pizza){
 		pizza.quantity = pizza.quantity+1;
@@ -148,7 +206,7 @@ pizzaPlace.service('cartService', function(){
 
       		if(pizza.quantity<1){
       			this.cart.splice(this.cart.indexOf(pizza), 1);
-      		};
+      		}
       };
     this.instantBuy = function(pizza){
     		this.cart.push({
@@ -168,10 +226,7 @@ pizzaPlace.service('cartService', function(){
 				quantity: pizza.quantity
 		});
 	};
-	 this.cartFinal = function(){
-        return this.cart;
-    };
-	this.cartTotal = function(){
+  this.cartTotal = function(){
 		var sum = 0;
 
 		 for (var i = 0; i < this.cart.length; i++) {
@@ -181,6 +236,10 @@ pizzaPlace.service('cartService', function(){
 
         return sum;
 	};
+});
+
+pizzaPlace.service('statusService', function(){
+  
 });
 
 

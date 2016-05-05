@@ -1,0 +1,12 @@
+<div class="orderFinale">
+	<h1>Order status:</h1>
+
+	<h3>Time Ordered: </h3>
+		<span>{{timeOrdered  | date:"MM/dd/yyyy 'at' h:mma"}}</span>
+	<h3>Time Estimated: </h3>
+		<span>{{timeEstimated  | date:"MM/dd/yyyy 'at' h:mma"}}</span>
+	<h2>Time Left: </h2>
+		<span>{{minutesRemain}}</span>
+		<span>{{timeEstimated-timeOrdered | date: "shortTime"}}</span>
+	
+</div>

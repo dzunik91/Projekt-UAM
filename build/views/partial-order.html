@@ -1,7 +1,7 @@
 <div class="orderFinale">
 <h2>Order</h2>
 
-<table width="500">
+<table width="500" class="orderSummary">
           <tr>
             <th>Name</th>
            
@@ -24,54 +24,53 @@
 </table>
 
 
-    <form class="well form-horizontal">
-<fieldset>
-
-
-<legend>Finalize Order</legend>
-
-<div class="form-group">
-  <label class="col-md-4 control-label">Phone #</label>  
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-  <input name="phone" placeholder="(000)000-0000" class="form-control" type="text" ng-model="info.phone" required>
+<form name = "pizzaForm" class="well form-horizontal">
+  <fieldset>
+  
+  
+  <legend>Finalize Order</legend>
+  
+  <div class="form-group">
+    <label class="col-md-4 control-label">Phone #</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+    <input name="phone" placeholder="(000)000-0000" class="form-control" type="text" ng-model="info.phone" required="required">
+  </div>
     </div>
   </div>
-</div>
-
-
-      
-<div class="form-group">
-  <label class="col-md-4 control-label">Address</label>  
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-  <input name="address" placeholder="Address" class="form-control" type="text" ng-model="info.address" required>
+  
+  
+    
+  <div class="form-group">
+    <label class="col-md-4 control-label">Address</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+    <input name="address" placeholder="Address" class="form-control" type="text" ng-model="info.address" required="required">
+  </div>
     </div>
   </div>
-</div>
-
- 
-<div class="form-group">
-  <label class="col-md-4 control-label">Remarks</label>  
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-  <input name="city" placeholder="Remarks" class="form-control"  type="text" ng-model="info.remarks">
+  
+   
+  <div class="form-group">
+    <label class="col-md-4 control-label">Remarks</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+    <input name="city" placeholder="Remarks" class="form-control"  type="text" ng-model="info.remarks">
+  </div>
     </div>
   </div>
-</div>
-
-<div class="form-group">
-  <label class="col-md-4 control-label"></label>
-  <div class="col-md-4">
-    <button class="btn btn-warning" ng-disabled="well.$invalid" ng-click="orderPizza(info)">Order <span class="glyphicon glyphicon-send"></span></button>
-    <button class="btn btn-danger" ui-sref="menu">Back <span class="glyphicon glyphicon-backward"></span></button>
+  
+  <div class="form-group">
+    <label class="col-md-4 control-label"></label>
+    <div class="col-md-4">
+  <button class="btn btn-warning" ng-disabled="pizzaForm.$invalid" ng-click="orderFinish(info)">Order <span class="glyphicon glyphicon-send"></span></button>
+  <button class="btn btn-danger" ui-sref="menu">Back <span class="glyphicon glyphicon-backward"></span></button>
+    </div>
   </div>
-</div>
-
-</fieldset>
-</form>
-</div>
+  
+  </fieldset>
+  </form> 
 </div>

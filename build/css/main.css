@@ -118,4 +118,10 @@ h3 {
     margin-left: 0px;
     padding: 80px;
     z-index: 0;
+
 }
+
+.orderSummary, .orderSummary th{
+    font-size: 20px;
+}
+
