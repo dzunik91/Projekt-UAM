@@ -109,11 +109,11 @@ pizzaPlace.controller('orderController' , ['$scope', '$http', '$state','$statePa
 	$scope.cartTotal = cartService.cartTotal;
 	/*$scope.personOrder = {};*/
   $scope.client = {};
-  $scope.orderFinish = function(infoObj){
+  $scope.orderFinish = function(info){
         
-        $scope.client = infoObj;
+        $scope.client = info;
         
-         $scope.orderFinal={
+         $scope.orderSummary={
             order: [],
             orderInfo: {
                 phone: $scope.client.phone,
@@ -124,44 +124,9 @@ pizzaPlace.controller('orderController' , ['$scope', '$http', '$state','$statePa
         };
     
            for (var i=0; i<$scope.cart.length ;i++){
-            $scope.orderFinal.order.push({
+            $scope.orderSummary.order.push({
                 id: $scope.cart[i].id,
                 quantity: $scope.cart[i].quantity
-            })
-        }
-        
-       $http.post('/order', ($scope.orderFinal))
-            .success(function(response){
-                $scope.res = JSON.parse(response.id);
-                $state.go('status',{
-                    orderId:$scope.res 
-                });
-            }).error(function(response){
-                console.log("błąd"  + response);
-            })
-        
-    };
-
-	
-	  /* $scope.orderPizza = function(info){
-        	
-        $scope.personOrder = info;
-        
-         $scope.orderSummary={
-            cart: [],
-            orderInfo: {
-                phone: $scope.personOrder.phone,
-                address: $scope.personOrder.address,
-                remarks: $scope.personOrder.remarks
-            },
-            extras: []
-        };
-    
-           for (var i=0; i<$scope.cart.length; i++){
-            $scope.orderSummary.cart.push({
-                id: $scope.cart[i].id,
-                quantity: $scope.cart[i].quantity
-               // total: $scope.cart[i].price*$scope.cart[i].quantity
             })
         }
         
@@ -176,8 +141,6 @@ pizzaPlace.controller('orderController' , ['$scope', '$http', '$state','$statePa
             })
         
     };
-*/
-
 }]);
 
 //Status
@@ -187,14 +150,22 @@ pizzaPlace.controller('statusController',['$scope', 'statusService', '$statePara
   $http.get("/order/"+$stateParams.orderId)
   .success(function(response) 
   {
-    $scope.timeOrdered  = response.ordered; 
-    $scope.timeEstimated = response.estimated;  
+    $scope.timeOrdered  = response.ordered;
+    $scope.timeEstimated = response.estimated;
+
+
+    $scope.orderedDate = new Date(response.ordered);
+    $scope.estimatedDate = new Date(response.estimated);
+
+    
+
+    $scope.minutesOrdered = ($scope.orderedDate).getMinutes();
+    $scope.minutesEstimated = ($scope.estimatedDate).getMinutes();
+
+    $scope.deliveryTime = ($scope.minutesEstimated)-($scope.minutesOrdered);
   });
 
-    $scope.minutesLeft = function(){
-
-     
-    }
+    
 }]);
 
 //SERVICES
