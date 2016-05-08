@@ -1,6 +1,6 @@
 'use strict';
 
-var pizzaPlace = angular.module('pizzaPlace', ['ui.router']);
+var pizzaPlace = angular.module('pizzaPlace', ['ui.router','angular.filter','ui-bootstrap']);
 	
 pizzaPlace.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -43,7 +43,7 @@ pizzaPlace.controller('contactController', ['$scope', 'contactService', function
 //KONTROLER MENU-PIZZE oraz SKŁADNIKI - INGREDIENTS
 
 
-pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 'cartService', '$state', function ($scope, menuService, ingService, cartService, $state) {
+pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 'cartService', '$state','$uibModal', '$log', function ($scope, menuService, ingService, cartService, $state, $uibModal, $log) {
 	
 	$scope.today = new Date();
 	
