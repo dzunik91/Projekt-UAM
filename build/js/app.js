@@ -1,6 +1,6 @@
 'use strict';
 
-var pizzaPlace = angular.module('pizzaPlace', ['ui.router','angular.filter','ui-bootstrap']);
+var pizzaPlace = angular.module('pizzaPlace', ['ui.router','angular.filter','ui.bootstrap','ngAnimate']);
 	
 pizzaPlace.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -44,9 +44,31 @@ pizzaPlace.controller('contactController', ['$scope', 'contactService', function
 
 
 pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 'cartService', '$state','$uibModal', '$log', function ($scope, menuService, ingService, cartService, $state, $uibModal, $log) {
-	
+	//zmienne potrzebne na oblcizenia
 	$scope.today = new Date();
-	
+	$scope.animationsEnabled = true;
+
+ $scope.open = function (pizza) {
+
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'views/partial-menu-modal.html',
+      controller: 'modalController',
+      resolve: {
+        pizza: function () {
+          return pizza;
+        }
+      }
+    });
+
+  };
+
+  $scope.toggleAnimation = function () {
+    $scope.animationsEnabled = !$scope.animationsEnabled;
+  };
+
+//OPOBRANIE MENU ORAZ SKŁADNIKÓW
+
 	menuService.success(function (data) {
         $scope.pizzaMenu = data;
     });
@@ -59,7 +81,6 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
     $scope.cartTotal = cartService.cartTotal;
     $scope.addPizza = function (pizza) {
 
-
         cartService.addPizza(pizza);
 
         console.log(cartService.cart);
@@ -67,20 +88,7 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
             };
 
 
-         /*   $scope.addPizza = function (pizza) {
-        for(var i = 0; i < $scope.cart.length; i++ ){
-        if($scope.cart[i].id == pizza.id){
-          cartService.pizzaIncQty(pizza);
-        }else{
-          cartService.addPizza(pizza);
-
-          console.log(cartService.cart);
-        }
-      };
         
-
-            };*/
-
 
       $scope.removePizza = function (pizza){
       		cartService.cart.splice($scope.cart.indexOf(pizza), 1);
@@ -101,6 +109,33 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
 		$state.go('order');
 	};
 
+}]);
+//KONTROLER MODALA
+pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance','pizza', 'menuService', 'ingService', 'cartService', function($scope, $uibModalInstance, pizza, menuService, ingService, cartService){
+  $scope.cart = cartService.cart;
+  $scope.cartTotal = cartService.cartTotal;
+ingService.success(function (data) {
+    $scope.restIngredients = data;
+  });
+
+$scope.addExtraIngredient = function(ingredient){
+  cartService.addExtraIngredient(ingredient);
+  console.log(cartService.extraIngredient);
+};
+
+$scope.pizza = pizza;
+
+  $scope.ok = function () {
+     cartService.addPizza(pizza);
+
+        console.log(cartService.cart);
+
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 }]);
 
 //KONTROLER zamówień
@@ -173,6 +208,7 @@ pizzaPlace.controller('statusController',['$scope', 'statusService', '$statePara
 pizzaPlace.service('cartService', function(){
 	
 	this.cart = [];
+  this.extraIngredient = [];
 	this.pizzaIncQty = function(pizza){
 		pizza.quantity = pizza.quantity+1;
 	};
@@ -182,6 +218,13 @@ pizzaPlace.service('cartService', function(){
       		if(pizza.quantity<1){
       			this.cart.splice(this.cart.indexOf(pizza), 1);
       		}
+      };
+      this.addExtraIngredient = function (ingredient){
+        this.extraIngredient.push({
+            id: ingredient.id,
+            label: ingredient.label,
+            price: ingredient.price
+        });
       };
     this.instantBuy = function(pizza){
     		this.cart.push({
@@ -197,7 +240,7 @@ pizzaPlace.service('cartService', function(){
 				id: pizza.id,
 				name: pizza.name,
 				price: pizza.price,
-				ingredients: pizza.ingredients,
+				ingredients: pizza.ingredients.concat(this.extraIngredient),
 				quantity: pizza.quantity
 		});
 	};
@@ -206,7 +249,7 @@ pizzaPlace.service('cartService', function(){
 
 		 for (var i = 0; i < this.cart.length; i++) {
             var pizza = this.cart[i];
-            sum += pizza.price*pizza.quantity;
+            sum += (pizza.price*pizza.quantity);
         }
 
         return sum;

@@ -17,13 +17,13 @@
            <p class="price">  {{pizza.price | currency:"PLN "}} </p>
          </div>
          <div class=" qty">
-           
+            <label> Quantity
              <input ng-init="pizza.quantity=1"  ng-model="pizza.quantity" type="number"  name="pizzaQuantity" min="0" max="10" step="1" value="1" >
-             
+             </label>
              
          </div>
           <div>
-               <button class="btn btn-success" ng-click="addPizza(pizza)">Add to Cart</button>
+               <button class="btn btn-success" ng-click="open(pizza)">Add to Cart</button>
                <button class="btn btn-danger" ng-click="instantBuy(pizza)">Express Order</button>
           </div>     
         </div>
