@@ -1,4 +1,4 @@
-<!--<h1>Oferta na {{ today | date }}</h1>-->
+
      
 
     <div class="container">
@@ -40,21 +40,26 @@
             
             <th>Price</th>
 
+            <th>New Ing.</th>
+
             <th></th>
+
+            
           </tr>
           <tr class="cartData" ng-repeat="pizza in cart">
             <td >{{pizza.name}}</td>
             <td ><button class="btn" ng-click="pizzaDecQty(pizza)"><i class="glyphicon glyphicon-minus"></i></button>{{pizza.quantity}}<button class="btn" ng-click="pizzaIncQty(pizza)"><i class="glyphicon glyphicon-plus"></i></button></td>
             <td >{{(pizza.price*pizza.quantity)|number:2}}</td>
+            <td>{{pizza.extraIngredient.length}}</td>
             <td><button class="btn" ng-click="removePizza(pizza)"><i class="glyphicon glyphicon-remove"></i></button></td>
           </tr>
           <tr>
             <th></th>
-            <th>SUM:</th>
-            <th>{{cartTotal() | number:2}} PLN</th>
+            <th>SUM: {{cartTotal() | number: 2}} PLN</th>
+            <th>{{(pizza.price + pizza.totalSum) | number:2}} PLN</th>
           </tr>
           </table>
-          <button class="btn btn-success" ng-click="orderPizza()">Continue</button>
+          <button class="btn btn-success" ng-click="orderPizza(pizza)">Continue</button>
  
           
 

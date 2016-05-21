@@ -46,10 +46,13 @@ pizzaPlace.controller('contactController', ['$scope', 'contactService', function
 pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 'cartService', '$state','$uibModal', '$log', function ($scope, menuService, ingService, cartService, $state, $uibModal, $log) {
 	//zmienne potrzebne na oblcizenia
 	$scope.today = new Date();
+  $scope.extraIngredient = cartService.extraIngredient;
+  $scope.extraIngCount = cartService.extraIngredient.length;
+  $scope.pizzaTotal = cartService.pizzaTotal;
 	$scope.animationsEnabled = true;
 
  $scope.open = function (pizza) {
-
+     cartService.extraIngredient = [];
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'views/partial-menu-modal.html',
@@ -79,13 +82,13 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
 
     $scope.cart = cartService.cart;
     $scope.cartTotal = cartService.cartTotal;
-    $scope.addPizza = function (pizza) {
+/*    $scope.addPizza = function (pizza) {
 
         cartService.addPizza(pizza);
 
         console.log(cartService.cart);
 
-            };
+            };*/
 
 
         
@@ -112,24 +115,26 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
 }]);
 //KONTROLER MODALA
 pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance','pizza', 'menuService', 'ingService', 'cartService', function($scope, $uibModalInstance, pizza, menuService, ingService, cartService){
+ 
   $scope.cart = cartService.cart;
-  $scope.cartTotal = cartService.cartTotal;
-ingService.success(function (data) {
+  $scope.pizzaTotal = cartService.pizzaTotal;
+  $scope.extraIngredientSum = cartService.extraIngredientSum;
+  $scope.testTotal = cartService.testTotal;
+  
+  ingService.success(function (data) {
     $scope.restIngredients = data;
   });
 
+
 $scope.addExtraIngredient = function(ingredient){
   cartService.addExtraIngredient(ingredient);
-  console.log(cartService.extraIngredient);
 };
 
 $scope.pizza = pizza;
 
-  $scope.ok = function () {
-     cartService.addPizza(pizza);
-
-        console.log(cartService.cart);
-
+  $scope.ok = function (pizza) {
+    
+    cartService.addPizza(pizza);
     $uibModalInstance.close();
   };
 
@@ -239,21 +244,52 @@ pizzaPlace.service('cartService', function(){
 			this.cart.push({
 				id: pizza.id,
 				name: pizza.name,
-				price: pizza.price,
-				ingredients: pizza.ingredients.concat(this.extraIngredient),
-				quantity: pizza.quantity
+				price: pizza.price+this.extraIngredientSum(),
+				ingredients: pizza.ingredients,
+        extraIngredient: this.extraIngredient,
+				quantity: pizza.quantity,
+        totalSum: (pizza.price*pizza.quantity)+this.extraIngredientSum()
 		});
 	};
+
+  this.extraIngredientSum = function(){
+    var sumIng = 0;
+    for (var j = 0; j < this.extraIngredient.length; j++){
+      var ingredient = this.extraIngredient[j];
+      sumIng += ingredient.price;
+    }
+    return sumIng;
+  };
+
   this.cartTotal = function(){
 		var sum = 0;
+    var sum1 = 0;
 
 		 for (var i = 0; i < this.cart.length; i++) {
+
+            for(var j = 0; j < this.extraIngredient.length; j++){
+                var ingredient = this.extraIngredient[j];
+                sum1 += ingredient.price;
+
+            }
             var pizza = this.cart[i];
-            sum += (pizza.price*pizza.quantity);
+            sum += pizza.totalSum;
         }
 
-        return sum;
+        return (sum + sum1) ;
 	};
+
+    this.testTotal = function(){
+    var sum = 0;
+
+     for (var i = 0; i < this.extraIngredient.length; i++) {
+            var ingredient = this.extraIngredient[i];
+            sum += ingredient.price;
+        }
+
+        return sum ;
+  };
+
 });
 
 pizzaPlace.service('statusService', function(){
