@@ -1,23 +1,33 @@
 <div class="modal-header">
-            <h1 class="modal-title">{{pizza.name}} <span>(CUSTOMIZE YOUR PIZZA)</span></h1>
-        </div>
-        <div class="modal-body">
-        <h3>Ingredients</h3>
-        <ul class="stadartIngredients" >
-            <li ng-repeat="ingredient in restIngredients" ng-if="pizza.ingredients.indexOf(ingredient.id) >= 0">{{ingredient.label}}</li>
-        </ul>
-        
-         <h3>Choose extra ingredients</h3>
-        <ul class="restIngredients">
-            <li ng-repeat="ingredient in restIngredients">
-            <input type="checkbox" ng-model="added" ng-change="addExtraIngredient(ingredient)"/>
-            <label>{{ingredient.label}} - {{ingredient.price}}</label>
-            </li>
-        </ul>
-        </div>
+    <h1 class="modal-title">{{pizza.name}}
+        <span>(CUSTOMIZE YOUR PIZZA)</span>
+    </h1>
+</div>
+<div class="modal-body">
+    <h3>Ingredients</h3>
+    <ul class="stadartIngredients">
+        <li ng-repeat="ingredient in restIngredients" ng-if="pizza.ingredients.indexOf(ingredient.id) >= 0">{{ingredient.label}}</li>
+    </ul>
 
-        <div class="modal-footer">
-            <h1 class="total text-right">TOTAL: {{}} PLN</h1>
-            <button class="btn btn-primary" type="button" ng-click="ok(pizza)">Add to cart <i class=" glyphicon glyphicon-shopping-cart"></i></button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel <i class=" glyphicon glyphicon-remove-circle"></i></button>
-        </div>
+    <h3>Choose extra ingredients</h3>
+    <ul class="restIngredients">
+        <li ng-repeat="ingredient in restIngredients">
+            <input type="checkbox" ng-if="pizza.ingredients.indexOf(ingredient.id) <= 1" ng-model="added" ng-change="addExtraIngredient(ingredient)"/>
+            <label>{{ingredient.label}}
+                -
+                {{ingredient.price}}</label>
+        </li>
+    </ul>
+</div>
+
+<div class="modal-footer">
+    <h1 class="total text-right">TOTAL:
+        {{ingredientSum}}
+        PLN</h1>
+    <button class="btn btn-primary" type="button" ng-click="ok(pizza)">Add to cart
+        <i class=" glyphicon glyphicon-shopping-cart"></i>
+    </button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel
+        <i class=" glyphicon glyphicon-remove-circle"></i>
+    </button>
+</div>

@@ -1,8 +1,8 @@
 
-     
+
 
     <div class="container">
-     <div class="menu col-md-8">   
+     <div class="menu col-md-8">
      <h2>Pizze</h2>
      <!-- solution based on http://stackoverflow.com/questions/14800862/how-can-i-group-data-with-an-angular-filter -->
   <div class="appetizers row" ng-repeat="(ingredientsNumb, item) in pizzaMenu |  groupBy: 'ingredients.length'">
@@ -10,9 +10,9 @@
          <div class="item  panel panel-default col-md-10" ng-repeat="pizza in item">
            <h3 class="name"> {{pizza.id}}.  {{pizza.name}} </h3>
            <div class="description">
-          <p ng-repeat="in in pizzaIngredients" ng-if="pizza.ingredients.indexOf(in.id) >= 0">{{in.label}}, </p> 
+          <p ng-repeat="in in pizzaIngredients" ng-if="pizza.ingredients.indexOf(in.id) >= 0">{{in.label}}, </p>
            </div>
-        
+
          <div class="price">
            <p class="price">  {{pizza.price | currency:"PLN "}} </p>
          </div>
@@ -20,14 +20,14 @@
             <label> Quantity
              <input ng-init="pizza.quantity=1"  ng-model="pizza.quantity" type="number"  name="pizzaQuantity" min="0" max="10" step="1" value="1" >
              </label>
-             
+
          </div>
           <div>
                <button class="btn btn-success" ng-click="open(pizza)">Add to Cart</button>
                <button class="btn btn-danger" ng-click="instantBuy(pizza)">Express Order</button>
-          </div>     
+          </div>
         </div>
-       </div> 
+       </div>
         </div>
 
         <div class="cart col-md-4">
@@ -35,35 +35,34 @@
           <table>
           <tr>
             <th>Name</th>
-           
+
             <th>Qty</th>
-            
+
             <th>Price</th>
 
             <th>New Ing.</th>
 
             <th></th>
 
-            
+
           </tr>
           <tr class="cartData" ng-repeat="pizza in cart">
             <td >{{pizza.name}}</td>
             <td ><button class="btn" ng-click="pizzaDecQty(pizza)"><i class="glyphicon glyphicon-minus"></i></button>{{pizza.quantity}}<button class="btn" ng-click="pizzaIncQty(pizza)"><i class="glyphicon glyphicon-plus"></i></button></td>
-            <td >{{(pizza.price*pizza.quantity)|number:2}}</td>
+            <td >{{pizza.totalSum | number:2}}</td>
             <td>{{pizza.extraIngredient.length}}</td>
             <td><button class="btn" ng-click="removePizza(pizza)"><i class="glyphicon glyphicon-remove"></i></button></td>
           </tr>
           <tr>
             <th></th>
             <th>SUM: {{cartTotal() | number: 2}} PLN</th>
-            <th>{{(pizza.price + pizza.totalSum) | number:2}} PLN</th>
+            <th></th>
           </tr>
           </table>
           <button class="btn btn-success" ng-click="orderPizza(pizza)">Continue</button>
- 
-          
+
+
 
 
         </div>
 </div>
-    
