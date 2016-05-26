@@ -127,7 +127,7 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
 
     $scope.addExtraIngredient = function(ingredient) {
         cartService.addExtraIngredient(ingredient);
-				console.log(cartService.extraIngredientSum);
+				//console.log(cartService.extraIngredientSum);
     };
 
     $scope.pizza = pizza;
@@ -137,7 +137,7 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
         cartService.addPizza(pizza);
         console.log(cartService.cart);
         $uibModalInstance.close();
-				console.log(cartService.cartTotal);
+				//console.log(cartService.cartTotal);
     };
 
     $scope.cancel = function() {
@@ -168,7 +168,9 @@ pizzaPlace.controller('orderController', ['$scope', '$http', '$state', '$statePa
         for (var i = 0; i < $scope.cart.length; i++) {
             $scope.orderSummary.order.push({
                 id: $scope.cart[i].id,
-                quantity: $scope.cart[i].quantity
+                quantity: $scope.cart[i].quantity,
+                extraIngredient: $scope.cart[i].extraIngredient,
+                totalSum: $scope.cart[i].totalSum
             })
         }
 
@@ -250,7 +252,6 @@ pizzaPlace.service('cartService', function() {
             extraIngredient: this.extraIngredient,
             quantity: pizza.quantity,
             totalSum: (pizza.price * pizza.quantity) + this.extraIngredientSum(),
-            test: this.cartTotal(),
             extraIngredientSum: this.extraIngredientSum()
         });
     };
@@ -273,16 +274,6 @@ pizzaPlace.service('cartService', function() {
         return sum;
     };
 
-    this.testTotal = function() {
-        var sum = 0;
-
-        for (var i = 0; i < this.extraIngredient.length; i++) {
-            var ingredient = this.extraIngredient[i];
-            sum += ingredient.price;
-        }
-
-        return sum;
-    };
 
 });
 

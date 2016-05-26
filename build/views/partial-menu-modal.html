@@ -12,7 +12,7 @@
     <h3>Choose extra ingredients</h3>
     <ul class="restIngredients">
         <li ng-repeat="ingredient in restIngredients">
-            <input type="checkbox" ng-if="pizza.ingredients.indexOf(ingredient.id) <= 1" ng-model="added" ng-change="addExtraIngredient(ingredient)"/>
+            <input type="checkbox" ng-if="pizza.ingredients.indexOf(ingredient.id) == -1" ng-model="added" ng-change="addExtraIngredient(ingredient)"/>
             <label>{{ingredient.label}}
                 -
                 {{ingredient.price}}</label>
