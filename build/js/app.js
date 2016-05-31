@@ -96,6 +96,8 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
         cartService.cart.splice($scope.cart.indexOf(pizza), 1);
     };
 
+
+
     $scope.pizzaIncQty = function(pizza) {
         cartService.pizzaIncQty(pizza);
     };
@@ -113,24 +115,30 @@ pizzaPlace.controller('menuController', ['$scope', 'menuService', 'ingService', 
 
 }]);
 //KONTROLER MODALA
-pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza', 'menuService', 'ingService', 'cartService', 'sumFactory', function($scope, $uibModalInstance, pizza, menuService, ingService, cartService, sumFactory) {
+pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza', 'menuService', 'ingService', 'cartService', function($scope, $uibModalInstance, pizza, menuService, ingService, cartService) {
 
     $scope.cart = cartService.cart;
-    $scope.ingredientSum = cartService.extraIngredientSum;
     $scope.cartTotal = cartService.cartTotal;
-    $scope.test123 = sumFactory.testSum;
 
+    $scope.test = cartService.extraIngredient.length;
+  
     ingService.success(function(data) {
         $scope.restIngredients = data;
     });
 
-
+    $scope.extraIngredientSum = function(){
+        cartService.extraIngredientSum;
+    };
     $scope.addExtraIngredient = function(ingredient) {
         cartService.addExtraIngredient(ingredient);
-				//console.log(cartService.extraIngredientSum);
+				console.log($scope.extraIngredientSum);
     };
 
     $scope.pizza = pizza;
+
+    $scope.removeBasicIng = function(ingredient){
+        $scope.pizza.ingredients.splice($scope.pizza.ingredients.indexOf(ingredient), 1);
+    };
 
     $scope.ok = function(pizza) {
 
@@ -282,10 +290,4 @@ pizzaPlace.service('statusService', function() {
 });
 
 
-pizzaPlace.factory('sumFactory', function() {
-    return {
-        testSum: function() {
-            return "test";
-        }
-    }
-});
+

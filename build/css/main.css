@@ -139,3 +139,9 @@ ul{
 
    
 }
+#stadartIng ul{
+    margin: 0;
+    padding: 0;
+}
+
+#stadartIng ul li {display: inline;}
