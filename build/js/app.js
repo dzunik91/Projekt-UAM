@@ -142,6 +142,17 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
         $scope.isExists = function (ingredient) {
             return $scope.extraIngredient.indexOf(ingredient) > -1;
         };
+
+    $scope.extraIngredientSum = function() {
+        var sumIng = 0;
+        for (var j = 0; j < $scope.extraIngredient.length; j++) {
+            var ingredient = $scope.extraIngredient[j];
+            sumIng += ingredient.price;
+        }
+        return sumIng;
+    };
+
+
     /*$scope.addExtraIngredient = function(ingredient) {
         cartService.addExtraIngredient(ingredient);
 				//console.log(cartService.extraIngredientSum());
