@@ -17,3 +17,13 @@ pizzaPlace.factory('ingService', ['$http', function($http) {
               return err; 
             }); 
 }]);
+
+pizzaPlace.factory('extrasService', ['$http', function($http) { 
+  return $http.get('/extras') 
+            .success(function(data) { 
+              return data; 
+            }) 
+            .error(function(err) { 
+              return err; 
+            }); 
+}]);

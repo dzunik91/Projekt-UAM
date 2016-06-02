@@ -239,6 +239,21 @@ pizzaPlace.controller('statusController', ['$scope', 'statusService', '$statePar
 
             $scope.deliveryTime = ($scope.minutesEstimated) - ($scope.minutesOrdered);
         });
+            var webSocketStatus = new WebSocket('ws://localhost:8080');
+                webSocketStatus.onmessage = function (message) {
+        
+        try {
+            var json = JSON.parse(message.data);
+            addMessage(json);
+            } catch (e) {
+            console.log('This doesn\'t look like a valid JSON: ', message.data);
+            return;
+        }
+    }
+
+    function addMessage(message) {
+        $scope.webStatus = message.order.status;
+    }
 
 
 }]);
