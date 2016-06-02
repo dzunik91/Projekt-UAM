@@ -120,7 +120,7 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
     $scope.cart = cartService.cart;
     $scope.cartTotal = cartService.cartTotal;
 
-    $scope.test = cartService.extraIngredient.length;
+    $scope.test = cartService.extraIngredientSum;
   
     ingService.success(function(data) {
         $scope.restIngredients = data;
@@ -129,10 +129,23 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
     $scope.extraIngredientSum = function(){
         cartService.extraIngredientSum;
     };
-    $scope.addExtraIngredient = function(ingredient) {
+
+    $scope.extraIngredient = cartService.extraIngredient;
+
+    $scope.toggle = function (ingredient) {
+            var idx = $scope.extraIngredient.indexOf(ingredient);
+            if (idx > -1)
+                $scope.extraIngredient.splice(idx, 1);
+            else
+                $scope.extraIngredient.push(ingredient);
+        };
+        $scope.isExists = function (ingredient) {
+            return $scope.extraIngredient.indexOf(ingredient) > -1;
+        };
+    /*$scope.addExtraIngredient = function(ingredient) {
         cartService.addExtraIngredient(ingredient);
-				console.log($scope.extraIngredientSum);
-    };
+				//console.log(cartService.extraIngredientSum());
+    };*/
 
     $scope.pizza = pizza;
 

@@ -5,25 +5,27 @@
 </div>
 <div class="modal-body">
     <div id="stadartIng">
-    <h3>Ingredients</h3>
+    <h3>Basic Ingredients</h3>
     <ul class="stadartIngredients">
         <li ng-repeat="ingredient in restIngredients" ng-if="pizza.ingredients.indexOf(ingredient.id) >= 0"><button ng-click="removeBasicIng(ingredient)" class="btn btn-danger">{{ingredient.label}} | <i class="glyphicon glyphicon-remove"></i></button></li>
     </ul>
     </div>
+    <div class="extraIngredients">
     <h3>Choose extra ingredients</h3>
     <ul class="restIngredients">
         <li ng-repeat="ingredient in restIngredients">
-            <input type="checkbox" ng-if="pizza.ingredients.indexOf(ingredient.id) == -1" ng-model="added" ng-click="addExtraIngredient(ingredient)"/>
+            <input type="checkbox" ng-if="pizza.ingredients.indexOf(ingredient.id) == -1" ng-checked="isExists(ingredient)" ng-click="toggle(ingredient)"/>
             <label>{{ingredient.label}}
                 -
                 {{ingredient.price}}</label>
         </li>
     </ul>
+    </div>
 </div>
 
 <div class="modal-footer">
     <h1 class="total text-right">TOTAL:
-        {{pizza.price}} + {{test}}
+        {{pizza.price}} + {{cartService.extraIngredientSum()}}
         PLN</h1>
     <button class="btn btn-primary" type="button" ng-click="ok(pizza)">Add to cart
         <i class=" glyphicon glyphicon-shopping-cart"></i>
