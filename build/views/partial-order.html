@@ -35,8 +35,12 @@
   <div class="col-md-4 inputGroupContainer">
   <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-    <input name="phone" placeholder="(000)000-0000" class="form-control" type="text" ng-model="info.phone" required="required">
+    <input name="userPhoneNumber" placeholder="000-000-0000" class="form-control" type="tel" ng-model="info.phone" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3}$/" required>
   </div>
+  <div ng-messages="pizzaForm.userPhoneNumber.$error">
+      <div ng-message="required" class="alertForm">This field is required</div>
+      <div ng-message="pattern" class="alertForm">Must be a valid 9 digit phone number</div>
+    </div>
     </div>
   </div>
   
@@ -47,8 +51,13 @@
   <div class="col-md-4 inputGroupContainer">
   <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-    <input name="address" placeholder="Address" class="form-control" type="text" ng-model="info.address" required="required">
-  </div>
+    <input name="address" placeholder="Address" class="form-control" type="text" ng-model="info.address" required>
+    </div>
+<div ng-messages="pizzaForm.address.$error">
+      <div ng-message="required" class="alertForm">This field is required</div>
+      
+    </div>
+  
     </div>
   </div>
   

@@ -1,6 +1,6 @@
 'use strict';
 
-var pizzaPlace = angular.module('pizzaPlace', ['ui.router', 'angular.filter', 'ui.bootstrap', 'ngAnimate']);
+var pizzaPlace = angular.module('pizzaPlace', ['ui.router', 'angular.filter', 'ui.bootstrap', 'ngAnimate','ngMessages']);
 
 pizzaPlace.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
