@@ -210,12 +210,13 @@ $scope.animationsEnabled = true;
 
         $scope.orderSummary = {
             order: [],
+            extras: [],
             orderInfo: {
                 phone: $scope.client.phone,
                 address: $scope.client.address,
                 remarks: $scope.client.remarks
-            },
-            extras: []
+            }
+            
         };
 
         for (var i = 0; i < $scope.cart.length; i++) {
@@ -228,9 +229,9 @@ $scope.animationsEnabled = true;
         }
 
         for (var i = 0; i < $scope.cart.length; i++) {
-            $scope.orderSummary.extras.push({
-                id: $scope.extrasArray[i].id
-            })
+            $scope.orderSummary.extras.push(
+                $scope.extrasArray[i].id
+            )
         }
 
         $http.post('/order', ($scope.orderSummary))
