@@ -121,7 +121,7 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
     $scope.cartTotal = cartService.cartTotal;
 
     $scope.test = cartService.extraIngredientSum;
-  
+
     ingService.success(function(data) {
         $scope.restIngredients = data;
     });
@@ -179,12 +179,12 @@ pizzaPlace.controller('modalController', ['$scope', '$uibModalInstance', 'pizza'
 
 //KONTROLER zamówień
 pizzaPlace.controller('orderController', ['$scope', '$http', '$state', '$stateParams', 'menuService', 'ingService', 'cartService','$uibModal', '$log', function($scope, $http, $state, $stateParams, menuService, ingService, cartService, $uibModal, $log) {
-    
-    //extras controller 
+
+    //extras controller
 $scope.animationsEnabled = true;
 
     $scope.addExtras = function() {
-        
+
         var modalInstance = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'views/partial-order-modal.html',
@@ -216,7 +216,7 @@ $scope.animationsEnabled = true;
                 address: $scope.client.address,
                 remarks: $scope.client.remarks
             }
-            
+
         };
 
         for (var i = 0; i < $scope.cart.length; i++) {
@@ -228,10 +228,11 @@ $scope.animationsEnabled = true;
             })
         }
 
-        for (var i = 0; i < $scope.cart.length; i++) {
-            $scope.orderSummary.extras.push(
-                $scope.extrasArray[i].id
-            )
+        for (var i = 0; i < $scope.extrasArray.length; i++) {
+            $scope.orderSummary.extras.push({
+              id:  $scope.extrasArray[i].id,
+              quantity: 1
+            })
         }
 
         $http.post('/order', ($scope.orderSummary))
@@ -249,12 +250,12 @@ $scope.animationsEnabled = true;
 
 
 pizzaPlace.controller('extrasController', ['$scope', '$uibModalInstance','extrasService', 'cartService', function($scope, $uibModalInstance, extrasService, cartService){
-    
+
      $scope.extrasArray = cartService.extras;
 
      extrasService.success(function(data) {
         $scope.extras = data;
-    });   
+    });
 
 
 
@@ -271,7 +272,7 @@ pizzaPlace.controller('extrasController', ['$scope', '$uibModalInstance','extras
 
 $scope.toOrder = function() {
 
-        
+
         $uibModalInstance.close();
                 console.log($scope.extrasArray);
     };
@@ -303,7 +304,7 @@ pizzaPlace.controller('statusController', ['$scope', 'statusService', '$statePar
         });
             var webSocketStatus = new WebSocket('ws://localhost:8080');
                 webSocketStatus.onmessage = function (message) {
-        
+
         try {
             var json = JSON.parse(message.data);
             addMessage(json);
@@ -363,7 +364,7 @@ pizzaPlace.service('cartService', function() {
             ingredients: pizza.ingredients,
             extraIngredient: this.extraIngredient,
             quantity: pizza.quantity,
-            totalSum: (pizza.price * pizza.quantity) + this.extraIngredientSum(),
+            pizzaTotalSum: (pizza.price * pizza.quantity) + this.extraIngredientSum(),
             extraIngredientSum: this.extraIngredientSum()
         });
     };
@@ -392,6 +393,3 @@ pizzaPlace.service('cartService', function() {
 pizzaPlace.service('statusService', function() {
 
 });
-
-
-
