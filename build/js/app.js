@@ -202,9 +202,14 @@ $scope.animationsEnabled = true;
     $scope.extrasArray = cartService.extras;
     $scope.cart = cartService.cart;
     $scope.cartTotal = cartService.cartTotal;
+
     /*$scope.personOrder = {};*/
     $scope.client = {};
     $scope.orderFinish = function(info) {
+
+       $scope.test = function(){
+            cartService.extrasSum;
+       };
 
         $scope.client = info;
 
@@ -252,7 +257,10 @@ $scope.animationsEnabled = true;
 pizzaPlace.controller('extrasController', ['$scope', '$uibModalInstance','extrasService', 'cartService', function($scope, $uibModalInstance, extrasService, cartService){
 
      $scope.extrasArray = cartService.extras;
-
+     
+$scope.test = function(){
+            cartService.extrasSum;
+       };
      extrasService.success(function(data) {
         $scope.extras = data;
     });
@@ -314,9 +322,9 @@ pizzaPlace.controller('statusController', ['$scope', 'statusService', '$statePar
         }
     }
 
-    function addMessage(message) {
-        $scope.webStatus = message;
-        console.log(message);
+    function addMessage(json) {
+        $scope.webStatus = json;
+        console.log(json);
     }
 
 
@@ -365,7 +373,8 @@ pizzaPlace.service('cartService', function() {
             extraIngredient: this.extraIngredient,
             quantity: pizza.quantity,
             pizzaTotalSum: (pizza.price * pizza.quantity) + this.extraIngredientSum(),
-            extraIngredientSum: this.extraIngredientSum()
+            extraIngredientSum: this.extraIngredientSum(),
+            extras: this.extrasSum()
         });
     };
 
@@ -377,12 +386,20 @@ pizzaPlace.service('cartService', function() {
         }
         return sumIng;
     };
+    this.extrasSum = function(){
+        var extrasSum = 0;
+        for(var i=0;i<this.extras.length; i++){
+            var extra = this.extras[i];
+            extrasSum += extra.price;
+        }
+        return extrasSum;
+    };
 
     this.cartTotal = function() {
         var sum = 0;
         for(var i = 0; i < this.cart.length; i++){
           var pizza = this.cart[i];
-          sum += (pizza.price + pizza.extraIngredientSum);
+          sum += (pizza.price + pizza.extraIngredientSum + pizza.extras);
         }
         return sum;
     };

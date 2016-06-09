@@ -8,13 +8,17 @@
             <th>Qty</th>
             
             <th>Price</th>
-
-            <th></th>
           </tr>
           <tr class="cartData" ng-repeat="pizza in cart">
             <td >{{pizza.name}}</td>
             <td >{{pizza.quantity}}</td>
-            <td >{{pizza.totalSum | number:2}}</td>
+            <td >{{pizza.pizzaTotalSum | number:2}}</td>
+          </tr>
+          <tr><th>Extras</th></tr>
+          <tr ng-repeat="extra in extrasArray" >
+            <td >{{extra.label}}</td>
+            <td></td>
+            <td>{{extra.price}}</td>
           </tr>
           <tr>
             <th></th>
