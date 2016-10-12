@@ -1,28 +1,16 @@
 <div class="modal-header">
-     <h1 class="modal-title">Chose Extras</h1> 
-</div>
+    <h1 class="modal-title">Chose Extras</h1> </div>
 <div class="modal-body">
-
-<ul class="extras">
+    <ul class="extras">
         <li ng-repeat="extra in extras">
             <input type="checkbox" ng-checked="isExists(extra)" ng-click="toggle(extra)" />
-            <label>{{extra.label}}
-                -
-                {{extra.price}}</label>
+            <label>{{extra.label}} - {{extra.price}}</label>
         </li>
     </ul>
-    
 </div>
-
 <div class="modal-footer">
- <h1 class="total text-right">TOTAL:{{}}</h1>
-   <button class="btn btn-primary" type="button" ng-click="toOrder()">Add to cart
-       <i class=" glyphicon glyphicon-shopping-cart"></i>
-   </button>
-   <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel
-       <i class=" glyphicon glyphicon-remove-circle"></i>
-   </button> 
+    <h1 class="total text-right">TOTAL:{{}}</h1>
+    <button class="btn btn-primary" type="button" ng-click="toOrder()">Add to cart <i class=" glyphicon glyphicon-shopping-cart"></i> </button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel <i class=" glyphicon glyphicon-remove-circle"></i> </button>
 </div>
-
-
 <!-- ng-if="pizza.ingredients.indexOf(ingredient.id) == -1" ng-checked="isExists(ingredient)" ng-click="toggle(ingredient)" -->
