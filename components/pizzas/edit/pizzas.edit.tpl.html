@@ -1,0 +1,23 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-open="vm.sidenavOpen">
+    <md-toolbar>
+        <h1 class="md-toolbar-tools">Add Item</h1> </md-toolbar>
+        
+    <md-content layout-padding>
+        <form>
+            <md-input-container>
+                <label for="title">Name</label>
+                <input type="text" id="name" ng-model="classified.name" md-autofocus> </md-input-container>
+            <md-input-container>
+                <label for="title">Ingredients</label>
+                <input type="text" id="ingredients" ng-model="classified.ingredients"> </md-input-container>
+            <md-input-container>
+                <label for="title">Price</label>
+                <input type="text" id="price" ng-model="classified.price"> </md-input-container>
+            <!--<md-input-container>
+                    <label for="title">Image Link</label>
+                    <input type="text" id="image"> </md-input-container>-->
+            <md-button class="md-primary" ng-if="!editing" ng-click="vm.saveClassified(classified)"> Save </md-button>
+            <md-button ng-if="editing" class="md-primary" ng-click="vm.saveEdit(classified)"> Save Edit </md-button>
+            <md-button ng-click="vm.closeSidebar()" class="md-warn"> Cancel </md-button> <pre>{{ classified | json }}</pre> </form>
+    </md-content>
+</md-sidenav>

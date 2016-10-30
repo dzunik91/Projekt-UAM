@@ -27,7 +27,7 @@ var app = express(),
     i = 0;
 var httpServer, wsServer, wsConnections = [];
 
-app.use(express.static(__dirname + '/../build/'));
+app.use(express.static(__dirname + '/../'));
 
 app.use(bodyParser.urlencoded({
     extended: false

@@ -1,0 +1,61 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <p><strong>ngJunik</strong></p>
+        <md-button ng-click="vm.openSidebar()">
+            <md-icon class="mdi mdi-plus-circle"></md-icon> <span>New shit</span> </md-button>
+        <md-button ng-click="showFilters = true">
+            <md-icon class="mdi mdi-magnify"></md-icon> <span>Filters</span> </md-button>
+    </div>
+</md-toolbar>
+<div class="filters" layout="row" layout-align="center center" ng-show="showFilters">
+    <md-input-container>
+        <label>Enter search term</label>
+        <input type="text" ng-model="classifiedFilter"> </md-input-container>
+    <div layout="row">
+        <md-button class="md-warn" ng-click="classifiedFilter = '';">Clear </md-button>
+        <md-button class="md-accent" ng-click="showFilters = false">Close </md-button>
+    </div>
+    <!-- <md-input-container>
+            <label>Category</label>
+            <md-select>
+                <md-option ng-repeat="category in categories" value="{{category}}"></md-option>
+            </md-select>
+        </md-input-container>-->
+</div>
+        <ui-view></ui-view>
+
+<md-content class="md-padding" layout="row" layout-wrap>
+    <md-card ng-repeat="classified in vm.classifieds | filter: classifiedFilter" flex="30" class="classified"> <img ng-src="{{ classified.image }}" alt="">
+        <md-card-content>
+            <div class="classified-info" ng-show="!showContact">
+                <h2 class="md-title">{{ classified.name }}</h2>
+                <div layout="row">
+                    <ul>
+                        <li ng-repeat="ingredient in ingredients" ng-if="classified.ingredients.indexOf(ingredient.id) >= 0">{{ ingredient.label }} </li>
+                    </ul>
+                </div>
+                <h3>{{ classified.price | currency }}</h3> </div>
+            <!-- <div class="classified-contact" ng-show="showContact">
+                    <p>
+                        <md-icon class="mdi mdi-account"></md-icon>{{classified.contact.name}}</p>
+                    <p>
+                        <md-icon class="mdi mdi-phone"></md-icon>{{classified.contact.phone}}</p>
+                    <p>
+                        <md-icon class="mdi mdi-email"></md-icon>{{classified.contact.email}}</p>
+                </div>-->
+            <div layout="row">
+                <!-- <md-button ng-show="!showContact" ng-click="showContact = true">Contact</md-button>-->
+                <!--<md-button ng-show="showContact" ng-click="showContact = false">Details</md-button>-->
+                <md-button ng-show="!showAdmin" ng-click="showAdmin = true">Admin</md-button>
+                <md-button ng-show="showAdmin" ng-click="showAdmin = false">Close</md-button>
+            </div>
+            <div class="classified-admin" ng-if="showAdmin">
+                <h3>Admin</h3>
+                <div layout="row">
+                    <md-button ng-click="vm.editClassified(classified)" class="md-primary">Edit</md-button>
+                    <md-button ng-click="vm.deleteClassified($event, classified)" class="md-warn">Delete</md-button>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</md-content>
