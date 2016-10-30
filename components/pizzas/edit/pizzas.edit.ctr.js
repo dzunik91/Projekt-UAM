@@ -6,7 +6,8 @@
         
         var vm = this;
         vm.closeSidebar = closeSidebar;
-        vm.saveClassified = saveClassified;
+        vm.saveEdit = saveEdit;
+        vm.classified = $state.params.classified;
         $timeout(function() {
         $mdSidenav('left').open();    
         });
@@ -24,11 +25,9 @@
         function closeSidebar() {
             vm.sidenavOpen = false;
         }
-        function saveClassified(classified) {
-            if(classified){
-                $scope.$emit('newItem', classified);
-                vm.sidenavOpen = false;
-            }
+        function saveEdit(classified) {
+         $scope.$emit('editSaved', 'Edit Saved!')   
+         vm.sidenavOpen = false;
         }
        
     });

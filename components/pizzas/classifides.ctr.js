@@ -24,6 +24,10 @@
             vm.classifieds.push(classified);
             showToast('Pizza saved!');
         });
+        
+        $scope.$on('editSaved', function(event, message) {
+            showToast(message);
+        })
 
         function openSidebar() {
             $state.go('pizzas.new');
@@ -43,9 +47,10 @@
         }
 
         function editClassified(classified) {
-            vm.editing = true;
-            openSidebar();
-            vm.classified = classified;
+           $state.go('pizzas.edit', {
+               id: classified.id,
+               classified: classified
+           });
         }
 
         function saveEdit() {
