@@ -5,9 +5,9 @@
         vm.openSidebar = openSidebar;
         vm.closeSidebar = closeSidebar;
         vm.saveClassified = saveClassified;
-        vm.editClassified = editClassified;
+        //vm.editClassified = editClassified;
         vm.saveEdit = saveEdit;
-        vm.deleteClassified = deleteClassified;
+        //vm.deleteClassified = deleteClassified;
         vm.classifieds;
         vm.ingredients;
         vm.editing;
@@ -46,12 +46,7 @@
             }
         }
 
-        function editClassified(classified) {
-           $state.go('pizzas.edit', {
-               id: classified.id,
-               classified: classified
-           });
-        }
+        
 
         function saveEdit() {
             vm.editing = false;
@@ -60,13 +55,7 @@
             showToast("Edit saved !");
         }
 
-        function deleteClassified(event, classified) {
-            var confirm = $mdDialog.confirm().title("Are you sure you want to delete " + classified.name + "?").ok("Yes").cancel("No").targetEvent(event);
-            $mdDialog.show(confirm).then(function () {
-                var index = vm.classifieds.indexOf(classified);
-                vm.classifieds.splice(index, 1);
-            }, function () {});
-        }
+        
 
         function showToast(message) {
             $mdToast.show($mdToast.simple().content(message).position('top, right').hideDelay(3000));

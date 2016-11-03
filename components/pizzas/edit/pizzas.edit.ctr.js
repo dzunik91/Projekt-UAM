@@ -8,6 +8,7 @@
         vm.closeSidebar = closeSidebar;
         vm.saveEdit = saveEdit;
         vm.classified = $state.params.classified;
+        vm.ingredients = $state.params.classified.ingredients;
         $timeout(function() {
         $mdSidenav('left').open();    
         });

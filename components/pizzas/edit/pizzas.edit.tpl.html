@@ -9,7 +9,13 @@
                 <input type="text" id="name" ng-model="vm.classified.name" md-autofocus> </md-input-container>
             <md-input-container>
                 <label for="title">Ingredients</label>
-                <input type="text" id="ingredients" ng-model="vm.classified.ingredients"> </md-input-container>
+               <!-- <input type="text" id="ingredients" ng-model="vm.classified.ingredients"> -->
+               <md-chips ng-model="vm.classified.ingredients">
+                 <md-ship-template>
+                     
+                 </md-ship-template>  
+               </md-chips>
+               </md-input-container>
             <md-input-container>
                 <label for="title">Price</label>
                 <input type="text" id="price" ng-model="vm.classified.price"> </md-input-container>
